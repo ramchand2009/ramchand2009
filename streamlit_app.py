@@ -61,7 +61,7 @@ def Data_Dictionary_Comparing():
     Intput_File_old = st.file_uploader("")
     if Intput_File_old is not None:   
         Input_old = pd.read_excel(Intput_File_old,sheet_name="WHizard Data Dict",skiprows=5)
-        
+        st.write(Input_old)
         #st.write(Assets_Input) 
     
     st.markdown(
@@ -77,7 +77,7 @@ def Data_Dictionary_Comparing():
     Intput_File_new = st.file_uploader(" ")
     if Intput_File_new is not None:
         Input_new = pd.read_excel(Intput_File_new,sheet_name="WHizard Data Dict",skiprows=5)
-
+        st.write(Input_new)
 
         data_Final=Input_old.compare(Input_new,keep_shape=True, keep_equal=False)
         data_Final.insert(0,'name_Old','')
@@ -146,7 +146,7 @@ def data_frame_demo():
     Intput_Assets_File = st.file_uploader("")
     if Intput_Assets_File is not None:   
         Input_old = pd.read_excel(Intput_Assets_File,sheet_name="WHizard Data Dict",skiprows=5)
-        st.write(Input_old)
+        
         #st.write(Assets_Input) 
     
     st.markdown(
@@ -162,7 +162,7 @@ def data_frame_demo():
     Intput_AlarmWorX_File = st.file_uploader(" ")
     if Intput_AlarmWorX_File is not None:
         Input_new = pd.read_excel(Intput_AlarmWorX_File,sheet_name="WHizard Data Dict",skiprows=5)
-        st.write(Input_new)
+        
 
         data_Final=Input_old.compare(Input_new,keep_shape=True, keep_equal=False)
         data_Final.insert(0,'name_Old','')
