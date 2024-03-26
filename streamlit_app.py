@@ -108,6 +108,19 @@ def data_frame_demo():
     import pandas as pd
     import altair as alt
 
+    from collections import defaultdict
+    from pathlib import Path
+    import sqlite3
+
+    import streamlit as st
+    import altair as alt
+    import pandas as pd
+
+    import openpyxl
+
+    from io import StringIO
+    from io import BytesIO
+
     from urllib.error import URLError
 
     Otput_Final = 'Whizard_compar\\2017-P Empire Distr\\output_Final_R06'
