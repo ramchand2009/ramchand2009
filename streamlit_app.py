@@ -27,8 +27,6 @@ def Data_Dictionary_Comparing():
     import altair as alt
     import pandas as pd
 
-    import openpyxl
-
     from io import StringIO
     from io import BytesIO
 
@@ -116,8 +114,6 @@ def data_frame_demo():
     import altair as alt
     import pandas as pd
 
-    import openpyxl
-
     from io import StringIO
     from io import BytesIO
 
@@ -182,11 +178,7 @@ def data_frame_demo():
             with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
                 data_Final.to_excel(writer, sheet_name='Sheet1')
         st.write("Output filename:", flnme)
-        st.download_button(label="Download Excel workbook", data=buffer.getvalue(), file_name=flnme, mime="application/vnd.ms-excel")
-
-   
-
-   
+        st.download_button(label="Download Excel workbook", data=buffer.getvalue(), file_name=flnme, mime="application/vnd.ms-excel")   
 
 page_names_to_funcs = {
     "—": intro,
