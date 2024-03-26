@@ -53,7 +53,7 @@ def Data_Dictionary_Comparing():
          """
                 
 
-                ### Choose a Logix Data Dictionary Input Old File
+                ### Choose a Logix Data Dictionary Old Input File
          """
 
                
@@ -68,7 +68,7 @@ def Data_Dictionary_Comparing():
          """
                 
 
-                ### Choose a Logix Data Dictionary Input New File
+                ### Choose a Logix Data Dictionary New Input File
          """
 
                
@@ -128,7 +128,7 @@ def data_frame_demo():
     st.write("# Welcome to Carbon RKayd! 👋")
     st.markdown(
             """
-            **👈 Select a Input Logix Data Dictionary from the dropdown on the below to compare the revised Logix Data Dictionary.
+            **👈 Select a Input File from the dropdown on the below .
 
            
         """
@@ -138,7 +138,7 @@ def data_frame_demo():
          """
                 
 
-                ### Choose a Logix Data Dictionary Input Old File
+                ### Choose a IcoUnifiedConfig_Assets Input File
          """
 
                
@@ -153,7 +153,7 @@ def data_frame_demo():
          """
                 
 
-                ### Choose a Logix Data Dictionary Input New File
+                ### Choose a IcoUnifiedConfig_AlarmWorX64 Server Input File
          """
 
                
