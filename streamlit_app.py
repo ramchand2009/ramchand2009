@@ -6,10 +6,15 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 
+from io import StringIO
+from io import BytesIO
+
+Otput_Final = 'Whizard_compar\\2017-P Empire Distr\\output_Final_R06'
+
 
 # Set the title and favicon that appear in the Browser's tab bar.
 st.set_page_config(
-    page_title='Inventory tracker',
+    page_title='Ramchand2009',
     page_icon=':shopping_bags:', # This is an emoji shortcode. Could be a URL too.
 )
 
@@ -168,7 +173,7 @@ def update_data(conn, df, changes):
 
 # Set the title that appears at the top of the page.
 '''
-# :shopping_bags: Inventory tracker
+# :shopping_bags: Ramchand2009
 
 **Welcome to Alice's Corner Store's intentory tracker!**
 This page reads and writes directly from/to our inventory database.
@@ -190,92 +195,42 @@ if db_was_just_created:
 # Load data from database
 df = load_data(conn)
 
-# Display data with editable table
-edited_df = st.data_editor(
-    df,
-    disabled=['id'], # Don't allow editing the 'id' column.
-    num_rows='dynamic', # Allow appending/deleting rows.
-    column_config={
-        # Show dollar sign before price columns.
-        "price": st.column_config.NumberColumn(format="$%.2f"),
-        "cost_price": st.column_config.NumberColumn(format="$%.2f"),
-    },
-    key='inventory_table')
-
-has_uncommitted_changes = any(len(v) for v in st.session_state.inventory_table.values())
-
-st.button(
-    'Commit changes',
-    type='primary',
-    disabled=not has_uncommitted_changes,
-    # Update data in database
-    on_click=update_data,
-    args=(conn, df, st.session_state.inventory_table))
-
-
-# -----------------------------------------------------------------------------
-# Now some cool charts
-
-# Add some space
-''
-''
-''
-
-st.subheader('Units left', divider='red')
-
-need_to_reorder = df[df['units_left'] < df['reorder_point']].loc[:, 'item_name']
-
-if len(need_to_reorder) > 0:
-    items = '\n'.join(f'* {name}' for name in need_to_reorder)
-
-    st.error(f"We're running dangerously low on the items below:\n {items}")
-
-''
-''
-
-st.altair_chart(
-    # Layer 1: Bar chart.
-    alt.Chart(df)
-        .mark_bar(
-            orient='horizontal',
-        )
-        .encode(
-            x='units_left',
-            y='item_name',
-        )
-    # Layer 2: Chart showing the reorder point.
-    + alt.Chart(df)
-        .mark_point(
-            shape='diamond',
-            filled=True,
-            size=50,
-            color='salmon',
-            opacity=1,
-        )
-        .encode(
-            x='reorder_point',
-            y='item_name',
-        )
-    ,
-    use_container_width=True)
-
-st.caption('NOTE: The :diamonds: location shows the reorder point.')
-
-''
-''
-''
 
 # -----------------------------------------------------------------------------
 
-st.subheader('Best sellers', divider='orange')
 
-''
-''
+# -----------------------------------------------------------------------------
 
-st.altair_chart(alt.Chart(df)
-    .mark_bar(orient='horizontal')
-    .encode(
-        x='units_sold',
-        y=alt.Y('item_name').sort('-x'),
-    ),
-    use_container_width=True)
+
+
+
+Intput_File_old = st.file_uploader("Choose a Logix Data Dictionary Input Old File")
+if Intput_File_old is not None:   
+    Input_old = pd.read_excel(Intput_File_old,sheet_name="WHizard Data Dict",skiprows=5)
+    
+    #st.write(Assets_Input) 
+
+Intput_File_new = st.file_uploader("Choose a Logix Data Dictionary Input New File")
+if Intput_File_new is not None:
+    Input_new = pd.read_excel(Intput_File_new,sheet_name="WHizard Data Dict",skiprows=5)
+
+
+data_Final=Input_old.compare(Input_new,keep_shape=True, keep_equal=False)
+data_Final.insert(0,'name_Old','')
+data_Final["name_Old"]= Input_old["Conveyor/ Device Name"]
+data_Final.insert(1,'name_New','')
+data_Final["name_New"]= Input_new["Conveyor/ Device Name"]
+#data_Final.to_excel(Otput_Final)
+#test
+
+#Assets_File.name = "Output_"+Assets_File.name
+flnme =  Otput_Final
+    #flnme = st.text_input('Enter Excel file name (e.g. email_data.xlsx)')
+if flnme != "":
+    if flnme.endswith(".xlsx") == False:  # add file extension if it is forgotten
+        flnme = flnme + ".xlsx"
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        data_Final.to_excel(writer, sheet_name='Sheet1')
+st.write("Output filename:", flnme)
+st.download_button(label="Download Excel workbook", data=buffer.getvalue(), file_name=flnme, mime="application/vnd.ms-excel")
