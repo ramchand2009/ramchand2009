@@ -23,7 +23,7 @@ def Data_Dictionary_Comparing():
     from pathlib import Path
     import sqlite3
 
-    import openpyxl
+    #import openpyxl
 
     import streamlit as st
     import altair as alt
@@ -116,7 +116,7 @@ def data_frame_demo():
     import altair as alt
     import pandas as pd
 
-    import openpyxl
+    #import openpyxl
 
     from io import StringIO
     from io import BytesIO
